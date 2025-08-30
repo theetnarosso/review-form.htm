@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Etna Rosso Feedback</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+
+    #stars {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      gap: 10px;
+    }
+
+    .star {
+      font-size: 2.5rem;
+      color: #999;
+      cursor: pointer;
+      transition: color 0.2s;
+      user-select: none;
+    }
+
+    .star.filled {
+      color: #ea4335;
+    }
+
+    #feedback-form {
+      display: none;
+      margin-top: 25px;
+    }
+
+    input, textarea {
+      width: 90%;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background: #333;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h2>How was your experience?</h2>
+  <div id="stars">
+    <span class="star" data-index="1">&#9734;</span>
+    <span class="star" data-index="2">&#9734;</span>
+    <span class="star" data-index="3">&#9734;</span>
+    <span class="star" data-index="4">&#9734;</span>
+    <span class="star" data-index="5">&#9734;</span>
+  </div>
+
+  <div id="feedback-form">
+    <p>We’d love to know how we can improve.</p>
+    <input type="text" id="name" placeholder="Name (optional)">
+    <textarea id="feedback" rows="4" placeholder="Leave your feedback..."></textarea>
+    <button onclick="submitFeedback()">Submit</button>
+  </div>
+
+  <script>
+    const stars = document.querySelectorAll(".star");
+    const form = document.getElementById("feedback-form");
+    const reviewLink = "https://g.page/r/CTXbAU8V6jQYEAI/review";
+
+    stars.forEach(star => {
+      star.addEventListener("click", function () {
+        const rating = parseInt(this.dataset.index);
+
+        stars.forEach((s, i) => {
+          s.innerHTML = i < rating ? "★" : "☆";
+          s.classList.toggle("filled", i < rating);
+        });
+
+        if (rating >= 4) {
+          window.location.href = reviewLink;
+        } else {
+          form.style.display = "block";
+        }
+      });
+    });
+
+    function submitFeedback() {
+      const name = document.getElementById("name").value;
+      const feedback = document.getElementById("feedback").value;
+
+      if (!feedback.trim()) {
+        alert("Please write some feedback.");
+        return;
+      }
+
+      alert("Grazie! Your feedback has been submitted.");
+      form.innerHTML = "<strong>Thank you for your feedback!</strong>";
+    }
+  </script>
+</body>
+</html>
